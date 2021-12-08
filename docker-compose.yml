@@ -1,0 +1,33 @@
+version: "3"
+services:
+  mongo:
+    container_name: mongo
+    image: mongo
+    ports:
+      - "27017:27017"
+
+  client:
+    container_name: react-app
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: ./client
+    ports:
+      - "3000:3000"
+    volumes:
+      - /app/node_modules
+      - ./client:/app
+
+  server:
+    container_name: express-mongo-api
+    restart: always
+    build:
+      dockerfile: Dockerfile
+      context: "./server"
+    ports:
+      - "80:80"
+    depends_on:
+      - mongo
+    volumes:
+      - /app/node_modules
+      - ./server:/app

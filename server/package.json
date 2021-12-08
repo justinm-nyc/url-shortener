@@ -1,19 +1,18 @@
 {
-  "name": "url-shortener",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server.js",
-    "client": "cd client && npm start",
-    "dev": "concurrently \"npm run client\" \"npm run server\""
+    "server": "node server.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "concurrently": "^6.4.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "mongoose": "^6.0.14",
+    "short-unique-id": "^4.4.4"
   }
 }

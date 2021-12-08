@@ -1,7 +1,7 @@
 const { addURL, findURL, getFullURL } = require("./helpers.js");
 const express = require("express");
 const mongoose = require("mongoose");
-const port = process.env.PORT || 80;
+const port = 80;
 
 /* Connect to MongoDB database and set api routes */
 mongoose

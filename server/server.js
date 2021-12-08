@@ -3,7 +3,7 @@ const express = require("express");
 const mongoose = require("mongoose");
 const port = process.env.PORT || 80;
 
-// Connect to MongoDB database
+/* Connect to MongoDB database and set api routes */
 mongoose
   .connect("mongodb://mongo:27017/url_db", { useNewUrlParser: true })
   .then(() => {
@@ -15,12 +15,9 @@ mongoose
 
     app.listen(port, () => console.log(`Listening on port ${port}`));
 
-    app.get("/express_backend", (req, res) => {
-      res.send({ express: "YOUR EXPRESS BACKEND IS CONNECTED TO REACT" });
-    });
-
+    /* Search for URL in database, if found return the data, if else, 
+    add the new URL to the database and then return the data */
     app.post("/new_url", async (req, res) => {
-      // Search for URL in database
       const url = await findURL(req.body.full_url_input);
       if (url) {
         return res.send({ fullURL: url.fullURL, shortURL: url.shortURL });
@@ -33,6 +30,7 @@ mongoose
       }
     });
 
+    /* Search for full URL in database using the short URL and then redirect to full URL if found  */
     app.get("/:short_endpoint", async (req, res) => {
       const fullURL = await getFullURL(req.params.short_endpoint);
       if (fullURL) return res.redirect(fullURL);

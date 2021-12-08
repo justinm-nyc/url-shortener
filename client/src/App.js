@@ -14,7 +14,24 @@ class App extends Component {
     this.setState({ url_input: event.target.value });
   };
 
+  isValidUrl(string) {
+    const matchPattern =
+      // eslint-disable-next-line no-useless-escape
+      /^(?:\w+:)?\/\/([^\s\.]+\.\S{2}|localhost[\:?\d]*)\S*$/;
+    return matchPattern.test(string);
+  }
+
   onSubmit = async () => {
+    if (!this.state.url_input) {
+      alert("Uh oh! You need to enter a URL!");
+      return false;
+    }
+
+    if (!this.isValidUrl(this.state.url_input)) {
+      alert("Uh oh! You need to enter a valid URL!");
+      return false;
+    }
+
     this.setState({ full_url: null });
     this.setState({ short_url: null });
 
@@ -45,33 +62,79 @@ class App extends Component {
   render() {
     return (
       <div className="App">
-        <header className="App-header"></header>
-        <div className="container">
-          <div className="mb-3">
-            <label className="form-label">Full URL</label>
-            <input
-              required
-              type="url"
-              className="form-control"
-              id="full_url_input"
-              onChange={this.handleChange}
-            />
-          </div>
-          <button
-            type="submit"
-            className="btn btn-success"
-            onClick={this.onSubmit}
+        <header className="App-header">
+          <nav
+            className="navbar navbar-dark bg"
+            style={{ backgroundColor: "#F93943" }}
           >
-            Submit
-          </button>
+            <div className="container-flex">
+              <div className="row">
+                <div className="col-3">
+                  <img
+                    alt="tiny-hand-gesture"
+                    src="https://img.icons8.com/color/48/000000/tiny-skin-type-2.png"
+                  />
+                </div>
+                <div className="col-9 px-0">
+                  <h1 style={{ color: "#E6FDFF" }}>URL Chicito</h1>
+                </div>
+              </div>
+            </div>
+          </nav>
+        </header>
+        <div className="container justify-content-md-center py-4">
+          <div className="row">
+            <h4>Need to shorten a URL?</h4>
+          </div>
+          <div className="row">
+            <h5 className="lead">
+              Type or paste it into the box below then click 'Shorten!' to
+              shorten it.
+            </h5>
+          </div>
+
+          <div className="row justify-content-md-center py-2">
+            <div className="col-6">
+              <form>
+                <input
+                  required
+                  type="url"
+                  className="form-control"
+                  id="full_url_input"
+                  onChange={this.handleChange}
+                />
+              </form>
+            </div>
+            <div className="d-grid gap-2 col-2">
+              <button
+                type="submit"
+                className="btn btn-dark"
+                onClick={this.onSubmit}
+              >
+                Shorten!
+              </button>
+            </div>
+          </div>
 
           {this.state.short_url && this.state.full_url && (
-            <div>
-              <p>{this.state.full_url}</p>
-              <p>{this.state.short_url}</p>
-              <CopyToClipboard text={this.state.short_url}>
-                <button>Copy to clipboard</button>
-              </CopyToClipboard>
+            <div className="row justify-content-md-center align-items-center my-4">
+              <div className="col-6">
+                <p className="mb-0">
+                  <strong>{"URL Chicito: "}</strong>
+                  {this.state.short_url}
+                </p>
+              </div>
+              <div className="d-grid gap-2 col-2">
+                <CopyToClipboard text={this.state.short_url}>
+                  <button
+                    type="submit"
+                    className="btn btn-dark"
+                    onClick={this.onSubmit}
+                  >
+                    Copy
+                  </button>
+                </CopyToClipboard>
+              </div>
             </div>
           )}
         </div>
